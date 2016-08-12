@@ -1,0 +1,23 @@
+diff --git a/gateway/gateway/service.py b/gateway/gateway/service.py
+index 2a2ba0d..22b50af 100644
+--- a/gateway/gateway/service.py
++++ b/gateway/gateway/service.py
+@@ -35,6 +35,18 @@ class GatewayService(object):
+             mimetype='application/json'
+         )
+ 
++    @http(
++        "GET", "/products"
++    )
++    def get_products(self, request):
++        """Gets products list
++        """
++        products = self.products_rpc.list()
++        return Response(
++            ProductSchema(many=True).dumps(products).data,
++            mimetype='application/json'
++        )
++
+     @http(
+         "POST", "/products",
+         expected_exceptions=(ValidationError, BadRequest)

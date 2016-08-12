@@ -1,0 +1,90 @@
+  test_name: End to end test
+
+  stages:
+    - name: create product
+      request:
+        url: http://{tavern.env_vars.SERVICE_URL}/products
+        json:
+          id: "shit_vacuum_2000"
+          title: "Shit Vacuum 2000"
+          width: 101
+          flow_capacity: 5
+          in_stock: 10
+        method: POST
+        headers:
+          content-type: application/json
+      response:
+        status_code: 200
+        body:
+          id: "shit_vacuum_2000"
+        headers:
+          content-type: application/json
+
+    - name: get product
+      request:
+        url: http://{tavern.env_vars.SERVICE_URL}/products/shit_vacuum_2000
+        method: GET
+        headers:
+          content-type: application/json
+      response:
+        status_code: 200
+        body:
+          id: "shit_vacuum_2000"
+          title: "Shit Vacuum 2000"
+          width: 101
+          flow_capacity: 5
+          in_stock: 10
+        headers:
+          content-type: application/json
+
+    - name: place order
+      request:
+        url: http://{tavern.env_vars.SERVICE_URL}/orders
+        json:
+          order_details:
+            - product_id: "shit_vacuum_2000"
+              price: "100000.99"
+              quantity: 1
+        method: POST
+        headers:
+          content-type: application/json
+      response:
+        status_code: 200
+        body:
+          id: 1
+        headers:
+          content-type: application/json
+
+    - name: get updated stock product 
+      request:
+        url: http://{tavern.env_vars.SERVICE_URL}/products/shit_vacuum_2000
+        method: GET
+        headers:
+          content-type: application/json
+      response:
+        status_code: 200
+        body:
+          id: "shit_vacuum_2000"
+          title: "Shit Vacuum 2000"
+          width: 101
+          flow_capacity: 5
+          in_stock: 9
+        headers:
+          content-type: application/json
+
+    - name: get order
+      request:
+        url: http://{tavern.env_vars.SERVICE_URL}/orders/1
+        method: GET
+        headers:
+          content-type: application/json
+      response:
+        status_code: 200
+        body:
+            order_details:
+            - product_id: "shit_vacuum_2000"
+              price: "100000.99"
+              quantity: 1
+            id: 1
+        headers:
+          content-type: application/json

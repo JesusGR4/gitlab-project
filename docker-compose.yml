@@ -1,0 +1,69 @@
+version: "3.4"
+services:
+  rabbit:
+    image: rabbitmq:3.7-management
+    ports:
+        - "15672:15672" # Exposing RabbitMQ web management on different port for convenience
+
+  postgres:
+    image: postgres:11.5
+    environment:
+        POSTGRES_DB: "orders"
+        POSTGRES_PASSWORD: "password"
+        POSTGRES_USER: "postgres"
+
+  redis:
+    image: redis:5.0
+
+  orders:
+    build:
+        context: orders/
+    depends_on:
+      - rabbit
+      - postgres
+    environment:
+        DB_PASSWORD: "password"
+        DB_USER: "postgres"
+        DB_HOST: "postgres"
+        DB_NAME: "orders"
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
+    # volumes:
+    #     - ./orders/:/var/nameko/
+
+  products:
+    build:
+        context: products/
+    depends_on:
+      - rabbit
+      - redis
+    environment:
+        REDIS_HOST: "redis"
+        REDIS_PORT: "6379"
+        REDIS_INDEX: "11"
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
+    # volumes:
+    #     - ./products/:/var/nameko/
+
+  gateway:
+    build:
+        context: gateway/
+    depends_on:
+      - rabbit
+    ports:
+        - "8003:8000"
+    environment:
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
+    # volumes:
+    #     - ./gateway/:/var/nameko/

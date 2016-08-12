@@ -1,0 +1,26 @@
+version: "3.4"
+services:
+  tester:
+    build:
+        context: .
+        dockerfile: test/Dockerfile
+    environment:
+        DB_PASSWORD: "password"
+        DB_USER: "postgres"
+        DB_HOST: "postgres"
+        DB_NAME: "orders"
+        RABBIT_PASSWORD: "guest"
+        RABBIT_USER: "guest"
+        RABBIT_HOST: "rabbit"
+        RABBIT_PORT: "5672"
+        RABBIT_MANAGEMENT_PORT: "15672"
+        REDIS_HOST: "redis"
+        REDIS_PORT: "6379"
+        REDIS_INDEX: "11"
+        REDIS_PASSWORD: "password"
+        SERVICE_URL: "gateway:8000"
+    command: bash -c 'sleep 10 && /var/nameko/test/run_tests.sh'
+    depends_on:
+      - orders
+      - products
+      - gateway
