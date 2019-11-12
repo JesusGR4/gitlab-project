@@ -1,7 +1,7 @@
 variables:
     DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
     VERSION: "$(CI_COMMIT_HASH)"
-    
+
 default:
   image: docker:stable
   before_script:
@@ -55,6 +55,7 @@ publish_orders:
     - docker push $DOCKER_IMAGE_PROJECT/orders:$VERSION
   only:
     - master
+
 
 publish_products:
   stage: publish
