@@ -1,13 +1,11 @@
 variables:
     DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
-    VERSION: "$(CI_COMMIT_HASH)"
-
+    VERSION: "${CI_COMMIT_SHORT_SHA}"
 default:
   image: docker:stable
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
-  - if [ '$CI_COMMIT_REF_NAME =~ /^(release\/.*)$/' ]; then export VERSION="${CI_COMMIT_REF_NAME}"; else export VERSION="${CI_COMMIT_SHORT_SHA}"; fi
   
 stages:
   - build_base_application
@@ -17,33 +15,33 @@ stages:
 build_base:
   stage: build_base_application
   script:
-    - docker build -t $DOCKER_IMAGE_PROJECT/base:$VERSION .
-    - docker push $DOCKER_IMAGE_PROJECT/base:$VERSION
+    - docker build -t $DOCKER_IMAGE/base:$VERSION .
+    - docker push $DOCKER_IMAGE/base:$VERSION
 build_gateway:
   stage: build_application
   script:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" gateway/Dockerfile
-    - docker build -t $DOCKER_IMAGE_PROJECT/gateway:$VERSION gateway/
-    - docker push $DOCKER_IMAGE_PROJECT/gateway:$VERSION
+    - docker build -t $DOCKER_IMAGE/gateway:$VERSION gateway/
+    - docker push $DOCKER_IMAGE/gateway:$VERSION
 build_products:
   stage: build_application
   script:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" products/Dockerfile
-    - docker build -t $DOCKER_IMAGE_PROJECT/products:$VERSION products/
-    - docker push $DOCKER_IMAGE_PROJECT/products:$VERSION
+    - docker build -t $DOCKER_IMAGE/products:$VERSION products/
+    - docker push $DOCKER_IMAGE/products:$VERSION
 build_orders:
   stage: build_application
   script:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" orders/Dockerfile
-    - docker build -t $DOCKER_IMAGE_PROJECT/orders:$VERSION orders/
-    - docker push $DOCKER_IMAGE_PROJECT/orders:$VERSION
+    - docker build -t $DOCKER_IMAGE/orders:$VERSION orders/
+    - docker push $DOCKER_IMAGE/orders:$VERSION
 
 publish_gateway:
   stage: publish
   script:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" gateway/Dockerfile
-    - docker build -t $DOCKER_IMAGE_PROJECT/gateway:$VERSION gateway/
-    - docker push $DOCKER_IMAGE_PROJECT/gateway:$VERSION
+    - docker build -t $DOCKER_IMAGE/gateway:$VERSION gateway/
+    - docker push $DOCKER_IMAGE/gateway:$VERSION
   only:
     - master
 
