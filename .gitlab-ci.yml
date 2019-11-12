@@ -1,12 +1,13 @@
+variables:
+    DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
+    VERSION: "$(CI_COMMIT_HASH)"
+    
 default:
   image: docker:stable
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
   - if [ '$CI_COMMIT_REF_NAME =~ /^(release\/.*)$/' ]; then export VERSION="${CI_COMMIT_REF_NAME}"; else export VERSION="${CI_COMMIT_SHORT_SHA}"; fi
-  variables:
-    DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
-    VERSION: "$(CI_COMMIT_HASH)"
   
 stages:
   - build_base_application
