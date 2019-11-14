@@ -1,12 +1,12 @@
 variables:
     DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
     DOCKER_REGISTRY: "registry:5000"
-    VERSION: "${CI_COMMIT_SHORT_SHA}"
 default:
   image: docker:stable
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
+  - if [[ $CI_COMMIT_REF_NAME == release* ]]; then export VERSION="${CI_COMMIT_REF_NAME#*/}"; else export VERSION="${CI_COMMIT_SHA}"; fi
   
 stages:
   - build_base_application
@@ -45,7 +45,7 @@ publish_gateway:
     - docker push $DOCKER_IMAGE/gateway:$VERSION
   only:
     - master
-
+    - releases
 publish_orders:
   stage: publish
   script:
@@ -54,7 +54,7 @@ publish_orders:
     - docker push $DOCKER_IMAGE/orders:$VERSION
   only:
     - master
-
+    - releases
 
 publish_products:
   stage: publish
@@ -63,4 +63,5 @@ publish_products:
     - docker build -t $DOCKER_IMAGE/products:$VERSION products/
     - docker push $DOCKER_IMAGE/products:$VERSION
   only:
-    - master    
+    - master
+    - releases    

@@ -7,10 +7,8 @@ services:
 
   postgres:
     image: postgres:11.5
-    environment:
-        POSTGRES_DB: "orders"
-        POSTGRES_PASSWORD: "password"
-        POSTGRES_USER: "postgres"
+    env_file: 
+        - postgres.env
 
   redis:
     image: redis:5.0
@@ -21,17 +19,8 @@ services:
     depends_on:
       - rabbit
       - postgres
-      
-    environment:
-        DB_PASSWORD: "password"
-        DB_USER: "postgres"
-        DB_HOST: "postgres"
-        DB_NAME: "orders"
-        RABBIT_PASSWORD: "guest"
-        RABBIT_USER: "guest"
-        RABBIT_HOST: "rabbit"
-        RABBIT_PORT: "5672"
-        RABBIT_MANAGEMENT_PORT: "15672"
+    env_file: 
+        - orders/orders.env
     # volumes:
     #     - ./orders/:/var/nameko/
 
@@ -41,16 +30,9 @@ services:
     depends_on:
       - rabbit
       - redis
-      
-    environment:
-        REDIS_HOST: "redis"
-        REDIS_PORT: "6379"
-        REDIS_INDEX: "11"
-        RABBIT_PASSWORD: "guest"
-        RABBIT_USER: "guest"
-        RABBIT_HOST: "rabbit"
-        RABBIT_PORT: "5672"
-        RABBIT_MANAGEMENT_PORT: "15672"
+    env_file:
+      - products/products.env
+    
     # volumes:
     #     - ./products/:/var/nameko/
 
@@ -62,12 +44,9 @@ services:
       
     ports:
         - "8003:8000"
-    environment:
-        RABBIT_PASSWORD: "guest"
-        RABBIT_USER: "guest"
-        RABBIT_HOST: "rabbit"
-        RABBIT_PORT: "5672"
-        RABBIT_MANAGEMENT_PORT: "15672"
+    env_file:
+      - gateway/gateway.env
+        
     # volumes:
     #     - ./gateway/:/var/nameko/
 
