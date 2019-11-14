@@ -43,18 +43,13 @@ publish_gateway:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" gateway/Dockerfile
     - docker build -t $DOCKER_IMAGE/gateway:$VERSION gateway/
     - docker push $DOCKER_IMAGE/gateway:$VERSION
-  only:
-    - master
-    - releases
+
 publish_orders:
   stage: publish
   script:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" orders/Dockerfile
     - docker build -t $DOCKER_IMAGE/orders:$VERSION orders/
     - docker push $DOCKER_IMAGE/orders:$VERSION
-  only:
-    - master
-    - releases
 
 publish_products:
   stage: publish
@@ -62,6 +57,4 @@ publish_products:
     - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" products/Dockerfile
     - docker build -t $DOCKER_IMAGE/products:$VERSION products/
     - docker push $DOCKER_IMAGE/products:$VERSION
-  only:
-    - master
-    - releases    
+      
