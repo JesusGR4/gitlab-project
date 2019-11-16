@@ -16,45 +16,33 @@ stages:
 build_base:
   stage: build_base_application
   script:
-    - docker build -t $DOCKER_IMAGE/base:$VERSION .
-    - docker push $DOCKER_IMAGE/base:$VERSION
+    - make make-base 
+
 build_gateway:
   stage: build_application
   script:
-    - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" gateway/Dockerfile
-    - docker build -t $DOCKER_IMAGE/gateway:$VERSION gateway/
-    - docker push $DOCKER_IMAGE/gateway:$VERSION
+    - make PROJECT="gateway" make-application 
 build_products:
   stage: build_application
   script:
-    - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" products/Dockerfile
-    - docker build -t $DOCKER_IMAGE/products:$VERSION products/
-    - docker push $DOCKER_IMAGE/products:$VERSION
+    - make PROJECT="products" make-application 
 build_orders:
   stage: build_application
   script:
-    - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" orders/Dockerfile
-    - docker build -t $DOCKER_IMAGE/orders:$VERSION orders/
-    - docker push $DOCKER_IMAGE/orders:$VERSION
+    - make PROJECT="orders" make-application 
 
 publish_gateway:
   stage: publish
   script:
-    - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" gateway/Dockerfile
-    - docker build -t $DOCKER_IMAGE/gateway:$VERSION gateway/
-    - docker push $DOCKER_IMAGE/gateway:$VERSION
+    - make PROJECT="gateway" make-publish
 
 publish_orders:
   stage: publish
   script:
-    - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" orders/Dockerfile
-    - docker build -t $DOCKER_IMAGE/orders:$VERSION orders/
-    - docker push $DOCKER_IMAGE/orders:$VERSION
+    - make PROJECT="orders" make-publish
 
 publish_products:
   stage: publish
   script:
-    - sed -i "s/FROM desatranques\/base/FROM $DOCKER_REGISTRY\/$CI_PROJECT_NAME\/base:$VERSION/g" products/Dockerfile
-    - docker build -t $DOCKER_IMAGE/products:$VERSION products/
-    - docker push $DOCKER_IMAGE/products:$VERSION
+    - make PROJECT="products" make-publish
       
