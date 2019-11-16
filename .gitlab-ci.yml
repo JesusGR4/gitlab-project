@@ -1,6 +1,7 @@
 variables:
     DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
     DOCKER_REGISTRY: "registry:5000"
+    TEMPORAL_VERSION: "TEMPORAL_${CI_COMMIT_SHA}"
 default:
   image: docker:stable
   before_script:
