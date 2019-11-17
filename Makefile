@@ -8,7 +8,7 @@ make-application:
 	docker build --no-cache -t ${DOCKER_IMAGE}/${PROJECT}:${TEMPORAL_VERSION} ${PROJECT}/
 	docker push ${DOCKER_IMAGE}/${PROJECT}:${TEMPORAL_VERSION}
 		
-
+SHELL := /bin/bash # Use bash syntax
 make-publish:
 	if [[ ${CI_COMMIT_REF_NAME} == release* ]]; then export VERSION=${CI_COMMIT_REF_NAME#*/}; else export VERSION=${CI_COMMIT_SHA}; fi
 	docker pull $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
