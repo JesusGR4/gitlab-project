@@ -4,6 +4,7 @@ variables:
     TEMPORAL_VERSION: "TEMPORAL_${CI_COMMIT_SHA}"
     PROJECT: "gateway"
 default:
+  image: docker:19.03.5-dind
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
