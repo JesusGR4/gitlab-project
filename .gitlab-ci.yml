@@ -8,7 +8,6 @@ default:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add bash
   - apk add make
-  - if [[ $CI_COMMIT_REF_NAME == release* ]]; then export VERSION="${CI_COMMIT_REF_NAME#*/}"; else export VERSION="${CI_COMMIT_SHA}"; fi
   
 stages:
   - build_base_application
