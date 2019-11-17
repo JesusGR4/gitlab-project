@@ -35,7 +35,7 @@ build_orders:
     - make PROJECT="orders" make-application 
 
 build-tester:
-  stage: build-modules
+  stage: test
   script:
     - make-test-base
 
