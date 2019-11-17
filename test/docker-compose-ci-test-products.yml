@@ -18,6 +18,6 @@ services:
       REDIS_INDEX: "11"
       REDIS_PASSWORD: "password"
 
-    command: bash -c 'while ! nc -z rabbit 15672; do sleep 3; done && /var/nameko/test/run_unittest.sh'
+    command: bash -c 'while ! nc -z rabbit 15672; do sleep 10; done && /var/nameko/test/run_unittest.sh'
     depends_on:
       - products

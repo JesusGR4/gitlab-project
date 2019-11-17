@@ -11,8 +11,6 @@ default:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
   - apk update && apk add bash
-  - apk add --update py-pip
-  - pip install pytest
 
 stages:
   - build_base_application
