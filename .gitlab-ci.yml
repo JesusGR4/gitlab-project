@@ -9,10 +9,12 @@ default:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
   - apk update && apk add bash
+  
 
 stages:
   - build_base_application
   - build_application
+  - release
   - publish
 
 build_base:
@@ -33,22 +35,41 @@ build_orders:
   script:
     - make PROJECT="orders" make-application 
 
+publish_release_gateway:
+  stage: release
+  script:
+    - export RELEASE=${CI_COMMIT_REF_NAME#release/}
+    - make PROJECT="gateway" make-publish-release
+  only:
+    - /^release-.*/
+publish_release_products:
+  stage: release
+  script:
+    - export RELEASE=${CI_COMMIT_REF_NAME#release/}
+    - make PROJECT="products" make-publish-release
+  only:
+    - /^release-.*/
+publish_release_orders:
+  stage: release
+  script:
+    - export RELEASE=${CI_COMMIT_REF_NAME#release/}
+    - make PROJECT="orders" make-publish-release
+  only:
+    - /^release-.*/
+
 publish_gateway:
   stage: publish
   script:
-    - echo $VERSION
     - make PROJECT="gateway" make-publish 
 
 publish_products:
   stage: publish
   script:
-    - echo $VERSION
-    - make PROJECT="gateway" make-publish 
+    - make PROJECT="products" make-publish 
 
 publish_orders:
   stage: publish
   script:
-    - echo $VERSION
-    - make PROJECT="gateway" make-publish     
+    - make PROJECT="orders" make-publish
 
       
