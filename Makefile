@@ -8,8 +8,8 @@ make-application:
 	docker push ${DOCKER_IMAGE}/${PROJECT}:${TEMPORAL_VERSION}
 		
 make-publish:
-	
-	splitted_array=($(echo $(CI_COMMIT_REF_NAME) | tr "/" "\n"))
+	string=${CI_COMMIT_REF_NAME}
+	splitted_array=($(echo $string | tr "/" "\n"))
 	if [[ ${splitted_array[0]} == 'release' ]]; then export VERSION="${PROJECT}:${splitted_array[1]}"; else export VERSION="${CI_COMMIT_SHA}"; fi
 	docker pull $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
 	docker tag $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION} $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
