@@ -28,3 +28,11 @@ make-test-microservice:
 	docker-compose -f docker-compose-ci-test-${PROJECT}.yml -f test/docker-compose-ci-test-${PROJECT}.yml build
 	docker-compose -f docker-compose-ci-test-${PROJECT}.yml -f test/docker-compose-ci-test-${PROJECT}.yml run tester
 
+
+make-test-gateway:
+	sed -i "s/desatranques\/orders/${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/${PROJECT}:${TEMPORAL_VERSION}/g" docker-compose-ci-test-gateway.yml
+	sed -i "s/desatranques\/products/${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/${PROJECT}:${TEMPORAL_VERSION}/g" docker-compose-ci-test-gateway.yml
+	sed -i "s/desatranques\/gateway/${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/${PROJECT}:${TEMPORAL_VERSION}/g" docker-compose-ci-test-gateway.yml
+	sed -i "s/desatranques\/test/${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/${PROJECT}:${TEMPORAL_VERSION}/g" test/docker-compose-ci-test-gateway.yml
+	docker-compose -f docker-compose-ci-test-gateway.yml -f test/docker-compose-ci-test-gateway.yml build
+	docker-compose -f docker-compose-ci-test-gateway.yml -f test/docker-compose-ci-test-gateway.yml run tester

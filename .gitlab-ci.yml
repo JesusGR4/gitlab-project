@@ -51,11 +51,21 @@ build_orders:
 ## TEST APPLICATION
 ###############################################################
 
-test_gateway:
+test-gateway:
   stage: test
   script:
-    - make PROJECT="gateway" make-test
+    - make make-test-gateway
 
+
+test_products:
+  stage: test
+  script:
+    - make PROJECT="products" make-test-microservice
+
+test_orders:
+  stage: test
+  script:
+    - make PROJECT="orders" make-test-microservice
 
 
 ###############################################################
