@@ -13,6 +13,12 @@ services:
     depends_on:
       - rabbit
       - redis
-    env_file:
-      - redis.env
-      - rabbit.env
+    environment:
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_INDEX: "11"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_MANAGEMENT_PORT: "15672"

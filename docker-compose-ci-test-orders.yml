@@ -7,14 +7,23 @@ services:
 
   postgres:
     image: postgres:11.5
-    env_file:
-      - postgres.env
+    environment:
+      POSTGRES_DB: "orders"
+      POSTGRES_PASSWORD: "password"
+      POSTGRES_USER: "postgres"
 
   orders:
     image: desatranques/orders
     depends_on:
       - rabbit
       - postgres
-    env_file:
-      - postgres.env
-      - rabbit.env
+    environment:
+      DB_PASSWORD: "password"
+      DB_USER: "postgres"
+      DB_HOST: "postgres"
+      DB_NAME: "orders"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_MANAGEMENT_PORT: "15672"

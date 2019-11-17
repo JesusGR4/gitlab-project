@@ -11,22 +11,37 @@ services:
       - rabbit
     ports:
       - "8003:8000"
-    env_file:
-      - rabbit.env
+    environment:
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_MANAGEMENT_PORT: "15672"
+
 
   postgres:
-      image: postgres:11.5
-      env_file:
-        - postgres.env
+    image: postgres:11.5
+    environment:
+      DB_PASSWORD: "password"
+      DB_USER: "postgres"
+      DB_HOST: "postgres"
+      DB_NAME: "orders"
 
   orders:
     image: desatranques/orders
     depends_on:
       - rabbit
       - postgres
-    env_file:
-      - postgres.env
-      - rabbit.env
+    environment:
+      DB_PASSWORD: "password"
+      DB_USER: "postgres"
+      DB_HOST: "postgres"
+      DB_NAME: "orders"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_MANAGEMENT_PORT: "15672"
 
   redis:
     image: redis:5.0
@@ -36,6 +51,12 @@ services:
     depends_on:
       - rabbit
       - redis
-    env_file:
-      - redis.env
-      - rabbit.env
+    environment:
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_INDEX: "11"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_MANAGEMENT_PORT: "15672"
