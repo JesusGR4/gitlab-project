@@ -2,9 +2,21 @@ version: "3.4"
 services:
   tester:
     image: desatranques/test
-    env_file:
-      - rabbit.env
-      - redis.env
+    environment:
+      PROJECT: "products"
+      DB_PASSWORD: "password"
+      DB_USER: "postgres"
+      DB_HOST: "postgres"
+      DB_NAME: "orders"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+      RABBIT_MANAGEMENT_PORT: "15672"
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      REDIS_INDEX: "11"
+      REDIS_PASSWORD: "password"
 
     command: bash -c 'while ! nc -z rabbit 15672; do sleep 3; done && /var/nameko/test/run_unittest.sh'
     depends_on:
