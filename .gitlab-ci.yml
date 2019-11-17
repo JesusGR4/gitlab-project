@@ -25,14 +25,14 @@ build_base:
   script:
     - make make-base 
 
-build-tester:
-  stage: build_base_application
-  script:
-    - make make-test-base
-
 ###############################################################
 ## BUILD PROJECTS
 ###############################################################
+
+build-tester:
+  stage: build_application
+  script:
+    - make make-test-base
 
 build_gateway:
   stage: build_application

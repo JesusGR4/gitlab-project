@@ -18,7 +18,7 @@ make-publish-release:
 	docker push $(DOCKER_IMAGE)/${PROJECT}:${RELEASE}		
 
 make-test-base:
-	sed -i "s/FROM desatranques\/base/FROM ${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/base:${TEMPORAL_VERSION}/g" test/Dockerfile
+	sed -i "s/FROM desatranques\/base/FROM ${DOCKER_IMAGE}\/base:${TEMPORAL_VERSION}/g" test/Dockerfile
 	docker build -t ${DOCKER_IMAGE}/test:${TEMPORAL_VERSION} -f test/Dockerfile .
 	docker push ${DOCKER_IMAGE}/test:${TEMPORAL_VERSION}
 
