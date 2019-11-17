@@ -36,21 +36,18 @@ build_orders:
 publish_gateway:
   stage: publish
   script:
-    - if [[ $CI_COMMIT_REF_NAME == release* ]]; then export VERSION="${CI_COMMIT_REF_NAME#*/}"; else export VERSION="${CI_COMMIT_SHA}"; fi
     - echo $VERSION
     - make PROJECT="gateway" make-publish 
 
 publish_products:
   stage: publish
   script:
-    - if [[ $CI_COMMIT_REF_NAME == release* ]]; then export VERSION="${CI_COMMIT_REF_NAME#*/}"; else export VERSION="${CI_COMMIT_SHA}"; fi
     - echo $VERSION
     - make PROJECT="gateway" make-publish 
 
 publish_orders:
   stage: publish
   script:
-    - if [[ $CI_COMMIT_REF_NAME == release* ]]; then export VERSION="${CI_COMMIT_REF_NAME#*/}"; else export VERSION="${CI_COMMIT_SHA}"; fi
     - echo $VERSION
     - make PROJECT="gateway" make-publish     
 
