@@ -3,7 +3,7 @@ variables:
     DOCKER_REGISTRY: "registry:5000"
     TEMPORAL_VERSION: "TEMPORAL_${CI_COMMIT_SHA}"
 default:
-  image: jesusgr4/images-repository:docker-1.0.0
+  image: jesusgr4/images-repository:docker-1.0.1
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
