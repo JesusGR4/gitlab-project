@@ -37,7 +37,7 @@ build_orders:
 build-tester:
   stage: test
   script:
-    - make-test-base
+    - make make-test-base
 
 publish_release_gateway:
   stage: release
