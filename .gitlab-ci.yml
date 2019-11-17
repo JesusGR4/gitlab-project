@@ -7,7 +7,7 @@ default:
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
   - apk add make
-  - apk update && apt add bash
+  - apk update && apk add bash
 
 stages:
   - build_base_application
