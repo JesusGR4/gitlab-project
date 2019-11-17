@@ -9,7 +9,6 @@ make-application:
 		
 
 make-publish:
-	if [[ ${CI_COMMIT_REF_NAME} == release* ]]; then export VERSION=${CI_COMMIT_REF_NAME#*/}; else export VERSION=${CI_COMMIT_SHA}; fi
 	docker pull $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
 	docker tag $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION} $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
 	docker push $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
