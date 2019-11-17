@@ -9,8 +9,9 @@ make-application:
 		
 make-publish:
 	string="${CI_COMMIT_REF_NAME}"
-	splitted_array=($(echo $string | tr "/" "\n"))
-	if [[ ${splitted_array[0]} == 'release' ]]; then export VERSION="${PROJECT}:${splitted_array[1]}"; else export VERSION="${CI_COMMIT_SHA}"; fi
+	branch_core=$(cut -d/ -f1 <<<"${string}")
+	branch_name=$(cut -d/ -f2 <<<"${string}")
+	if [[ ${branch_core} == 'release' ]]; then export VERSION="${PROJECT}:${branch_name}"; else export VERSION="${CI_COMMIT_SHA}"; fi
 	docker pull $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
 	docker tag $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION} $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
 	docker push $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
