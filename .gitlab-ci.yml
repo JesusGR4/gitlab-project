@@ -61,15 +61,17 @@ publish_gateway:
   stage: publish
   script:
     - make PROJECT="gateway" make-publish 
-
+  except:
+    - /^release-.*/
 publish_products:
   stage: publish
   script:
     - make PROJECT="products" make-publish 
-
+  except:
+    - /^release-.*/
 publish_orders:
   stage: publish
   script:
     - make PROJECT="orders" make-publish
-
-      
+  except:
+    - /^release-.*/
