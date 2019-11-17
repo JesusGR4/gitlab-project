@@ -3,10 +3,9 @@ variables:
     DOCKER_REGISTRY: "registry:5000"
     TEMPORAL_VERSION: "TEMPORAL_${CI_COMMIT_SHA}"
 default:
-  image: docker:19.03.4
+  image: docker:19.03.5-git
   before_script:
   - docker login -u admin -p $NEXUS_PASSWORD registry:5000
-  - apk add bash
   - apk add make
   
 stages:
