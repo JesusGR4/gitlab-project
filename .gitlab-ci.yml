@@ -2,6 +2,7 @@ variables:
     DOCKER_IMAGE: "registry:5000/$CI_PROJECT_NAME"
     DOCKER_REGISTRY: "registry:5000"
     TEMPORAL_VERSION: "TEMPORAL_${CI_COMMIT_SHA}"
+    PROJECT: "gateway"
 default:
   
   before_script:
@@ -40,13 +41,5 @@ publish_gateway:
     - docker tag $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION} $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
     - docker push $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
 
-publish_orders:
-  stage: publish
-  script:
-    - make PROJECT="orders" make-publish
 
-publish_products:
-  stage: publish
-  script:
-    - make PROJECT="products" make-publish
       
