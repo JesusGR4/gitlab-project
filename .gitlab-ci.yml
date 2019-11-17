@@ -41,37 +41,37 @@ publish_release_gateway:
     - export RELEASE=${CI_COMMIT_REF_NAME#release/}
     - make PROJECT="gateway" make-publish-release
   only:
-    - /^release-.*/
+    - /^release*/
 publish_release_products:
   stage: release
   script:
     - export RELEASE=${CI_COMMIT_REF_NAME#release/}
     - make PROJECT="products" make-publish-release
   only:
-    - /^release-.*/
+    - /^release*/
 publish_release_orders:
   stage: release
   script:
     - export RELEASE=${CI_COMMIT_REF_NAME#release/}
     - make PROJECT="orders" make-publish-release
   only:
-    - /^release-.*/
+    - /^release*/
 
 publish_gateway:
   stage: publish
   script:
     - make PROJECT="gateway" make-publish 
   except:
-    - /^release-.*/
+    - /^release*/
 publish_products:
   stage: publish
   script:
     - make PROJECT="products" make-publish 
   except:
-    - /^release-.*/
+    - /^release*/
 publish_orders:
   stage: publish
   script:
     - make PROJECT="orders" make-publish
   except:
-    - /^release-.*/
+    - /^release*/

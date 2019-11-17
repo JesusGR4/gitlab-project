@@ -9,8 +9,8 @@ make-application:
 		
 make-publish:
 	docker pull $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
-	docker tag $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION} $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
-	docker push $(DOCKER_IMAGE)/${PROJECT}:${VERSION}
+	docker tag $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION} $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
+	docker push $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
 
 make-publish-release:
 	docker pull $(DOCKER_IMAGE)/${PROJECT}:${TEMPORAL_VERSION}
