@@ -4,6 +4,8 @@ services:
     image: rabbitmq:3.7-management
     ports:
       - "15672:15672"
+    env_file:
+      - rabbit.env  
 
   gateway:
     image: desatranques/gateway
@@ -30,7 +32,9 @@ services:
 
   redis:
     image: redis:5.0
-
+    env_file:
+      - redis.env
+      
   products:
     image: desatranques/products
     depends_on:
