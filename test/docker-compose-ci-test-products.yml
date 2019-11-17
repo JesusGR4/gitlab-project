@@ -3,8 +3,8 @@ services:
   tester:
     image: desatranques/test
     env_file:
-      - "../rabbit.env"
-      - "../redis.env"
+      - rabbit.env
+      - redis.env
 
     command: bash -c 'while ! nc -z rabbit 15672; do sleep 3; done && /var/nameko/test/run_unittest.sh'
     depends_on:
