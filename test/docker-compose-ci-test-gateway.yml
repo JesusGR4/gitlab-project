@@ -1,0 +1,12 @@
+version: "3.4"
+services:
+  tester:
+    image: desatranques/test
+    environment:
+      PROJECT: "gateway"
+
+    env_file:
+      - "../rabbit.env"  
+    command: bash -c 'while ! nc -z rabbit 15672; do sleep 3; done && /var/nameko/test/run_unittest.sh'
+    depends_on:
+      - gateway

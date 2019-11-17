@@ -16,10 +16,23 @@ stages:
   - release
   - publish
 
+###############################################################
+## BUILD BASE
+###############################################################
+
 build_base:
   stage: build_base_application
   script:
     - make make-base 
+
+build-tester:
+  stage: build_base_application
+  script:
+    - make make-test-base
+
+###############################################################
+## BUILD PROJECTS
+###############################################################
 
 build_gateway:
   stage: build_application
@@ -34,10 +47,21 @@ build_orders:
   script:
     - make PROJECT="orders" make-application 
 
-build-tester:
+###############################################################
+## TEST APPLICATION
+###############################################################
+
+test_gateway:
   stage: test
   script:
-    - make make-test-base
+    - make PROJECT="gateway" make-test
+
+
+
+###############################################################
+## RELEASE PUBLISH
+###############################################################
+
 
 publish_release_gateway:
   stage: release
@@ -60,6 +84,10 @@ publish_release_orders:
     - make PROJECT="orders" make-publish-release
   only:
     - /^release*/
+
+###############################################################
+## PUBLISH
+###############################################################
 
 publish_gateway:
   stage: publish

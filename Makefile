@@ -21,3 +21,10 @@ make-test-base:
 	sed -i "s/FROM desatranques\/base/FROM ${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/base:${TEMPORAL_VERSION}/g" test/Dockerfile
 	docker build -t ${DOCKER_IMAGE}/test:${TEMPORAL_VERSION} -f test/Dockerfile .
 	docker push ${DOCKER_IMAGE}/test:${TEMPORAL_VERSION}
+
+make-test-microservice:
+	sed -i "s/desatranques\/${PROJECT}/${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/${PROJECT}:${TEMPORAL_VERSION}/g" docker-compose-ci-test-${PROJECT}.yml
+	sed -i "s/desatranques\/test/${DOCKER_REGISTRY}\/${CI_PROJECT_NAME}\/test:${TEMPORAL_VERSION}/g" test/docker-compose-ci-test-${PROJECT}.yml
+	docker-compose -f docker-compose-ci-test-${PROJECT}.yml -f test/docker-compose-ci-test-${PROJECT}.yml build
+	docker-compose -f docker-compose-ci-test-${PROJECT}.yml -f test/docker-compose-ci-test-${PROJECT}.yml run tester
+
