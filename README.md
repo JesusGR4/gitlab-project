@@ -314,3 +314,8 @@ $ curl 'http://localhost:8003/products/'
 - Detallar cambios en la configuración o plugins en cada herramienta de CI, si aplica
 
 Buena suerte! :+1:
+
+## ¿Por qué la elección de Gitlab?
+
+¡Hola! La elección de Gitlab es por varios motivos: La primera y principal, porque la usaré en mi trabajo, y adquirir experiencia con esta herramienta es clave para 
+después aplicarlo en mi trabajo. Por otro lado, a nivel de interfaz me parece mucho más atractivo que Jenkins y a nivel de performance también. La forma de paralelizar los jobs de Gitlab es tremendamente fácil, simplemente escalando la imagen en docker-compose, es decir, añadir runners. Y por último, porque me parecía un desafío ya que previamente sí que había utilizado Jenkins
