@@ -26,7 +26,19 @@ stages:
 build_base:
   stage: build_base_application
   script:
-    - make make-base 
+    - make make-base
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success
+
+  
 
 ###############################################################
 ## BUILD PROJECTS
@@ -36,20 +48,57 @@ build-tester:
   stage: build_application
   script:
     - make make-test-base
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success
 
 build_gateway:
   stage: build_application
   script:
-    - make PROJECT="gateway" make-application 
+    - make PROJECT="gateway" make-application
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success  
 build_products:
   stage: build_application
   script:
     - make PROJECT="products" make-application 
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success  
 build_orders:
   stage: build_application
   script:
     - make PROJECT="orders" make-application 
-
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - test/**/*
+      when: on_success
 ###############################################################
 ## TEST APPLICATION
 ###############################################################
@@ -58,18 +107,44 @@ test-gateway:
   stage: test
   script:
     - make make-test-gateway
-
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success  
 
 test_products:
   stage: test
   script:
     - make PROJECT="products" make-test-microservice
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success  
 
 test_orders:
   stage: test
   script:
     - make PROJECT="orders" make-test-microservice
-
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - test/**/*
+      when: on_success
 
 ###############################################################
 ## RELEASE PUBLISH
@@ -83,6 +158,17 @@ publish_release_gateway:
     - make PROJECT="gateway" make-publish-release
   only:
     - /^release*/
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success  
+        
 publish_release_products:
   stage: release
   script:
@@ -90,6 +176,16 @@ publish_release_products:
     - make PROJECT="products" make-publish-release
   only:
     - /^release*/
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success  
+        
 publish_release_orders:
   stage: release
   script:
@@ -97,7 +193,15 @@ publish_release_orders:
     - make PROJECT="orders" make-publish-release
   only:
     - /^release*/
-
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - test/**/*
+      when: on_success
 ###############################################################
 ## PUBLISH
 ###############################################################
@@ -108,15 +212,44 @@ publish_gateway:
     - make PROJECT="gateway" make-publish 
   except:
     - /^release*/
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success    
+
 publish_products:
   stage: publish
   script:
     - make PROJECT="products" make-publish 
   except:
     - /^release*/
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - products/**/*
+      - test/**/*
+      when: on_success    
 publish_orders:
   stage: publish
   script:
     - make PROJECT="orders" make-publish
+  rules:
+    changes:
+      - Dockerfile
+      - requirements.txt
+      - .coveragerc
+      - gateway/**/*
+      - orders/**/*
+      - test/**/*
+      when: on_success
   except:
     - /^release*/
