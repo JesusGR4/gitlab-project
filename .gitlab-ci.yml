@@ -27,16 +27,17 @@ build_base:
   stage: build_base_application
   script:
     - make make-base
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
-      - Dockerfile
-      - requirements.txt
-      - .coveragerc
-      - gateway/**/*
-      - orders/**/*
-      - products/**/*
-      - test/**/*
-      when: on_success
+    - Dockerfile
+    - requirements.txt
+    - .coveragerc
+    - gateway/**/*
+    - orders/**/*
+    - products/**/*
+    - test/**/*
+    when: on_success
 
   
 
@@ -48,16 +49,17 @@ build-tester:
   stage: build_application
   script:
     - make make-test-base
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
-      - Dockerfile
-      - requirements.txt
-      - .coveragerc
-      - gateway/**/*
-      - orders/**/*
-      - products/**/*
-      - test/**/*
-      when: on_success
+    - Dockerfile
+    - requirements.txt
+    - .coveragerc
+    - gateway/**/*
+    - orders/**/*
+    - products/**/*
+    - test/**/*
+    when: on_success
 
 build_gateway:
   stage: build_application
@@ -77,7 +79,8 @@ build_products:
   stage: build_application
   script:
     - make PROJECT="products" make-application 
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -90,7 +93,8 @@ build_orders:
   stage: build_application
   script:
     - make PROJECT="orders" make-application 
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -107,7 +111,8 @@ test-gateway:
   stage: test
   script:
     - make make-test-gateway
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -122,7 +127,8 @@ test_products:
   stage: test
   script:
     - make PROJECT="products" make-test-microservice
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -136,7 +142,8 @@ test_orders:
   stage: test
   script:
     - make PROJECT="orders" make-test-microservice
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -158,6 +165,9 @@ publish_release_gateway:
     - make PROJECT="gateway" make-publish-release
   only:
     - /^release*/
+    
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -175,6 +185,8 @@ publish_release_products:
     - make PROJECT="products" make-publish-release
   only:
     - /^release*/
+   rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -191,6 +203,8 @@ publish_release_orders:
     - make PROJECT="orders" make-publish-release
   only:
     - /^release*/
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -209,7 +223,8 @@ publish_gateway:
     - make PROJECT="gateway" make-publish 
   except:
     - /^release*/
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -226,7 +241,8 @@ publish_products:
     - make PROJECT="products" make-publish 
   except:
     - /^release*/
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
@@ -239,7 +255,8 @@ publish_orders:
   stage: publish
   script:
     - make PROJECT="orders" make-publish
-  only:
+  rules:
+    - if: '$CI_COMMIT_REF_NAME =~ /^(master|feature\/.*|release\/.*)$/'
     changes:
       - Dockerfile
       - requirements.txt
