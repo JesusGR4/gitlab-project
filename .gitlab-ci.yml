@@ -27,7 +27,7 @@ build_base:
   stage: build_base_application
   script:
     - make make-base
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -48,7 +48,7 @@ build-tester:
   stage: build_application
   script:
     - make make-test-base
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -63,7 +63,7 @@ build_gateway:
   stage: build_application
   script:
     - make PROJECT="gateway" make-application
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -77,7 +77,7 @@ build_products:
   stage: build_application
   script:
     - make PROJECT="products" make-application 
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -90,7 +90,7 @@ build_orders:
   stage: build_application
   script:
     - make PROJECT="orders" make-application 
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -107,7 +107,7 @@ test-gateway:
   stage: test
   script:
     - make make-test-gateway
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -122,7 +122,7 @@ test_products:
   stage: test
   script:
     - make PROJECT="products" make-test-microservice
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -136,7 +136,7 @@ test_orders:
   stage: test
   script:
     - make PROJECT="orders" make-test-microservice
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -158,7 +158,6 @@ publish_release_gateway:
     - make PROJECT="gateway" make-publish-release
   only:
     - /^release*/
-  rules:
     changes:
       - Dockerfile
       - requirements.txt
@@ -176,7 +175,6 @@ publish_release_products:
     - make PROJECT="products" make-publish-release
   only:
     - /^release*/
-  rules:
     changes:
       - Dockerfile
       - requirements.txt
@@ -193,7 +191,6 @@ publish_release_orders:
     - make PROJECT="orders" make-publish-release
   only:
     - /^release*/
-  rules:
     changes:
       - Dockerfile
       - requirements.txt
@@ -212,7 +209,7 @@ publish_gateway:
     - make PROJECT="gateway" make-publish 
   except:
     - /^release*/
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -229,7 +226,7 @@ publish_products:
     - make PROJECT="products" make-publish 
   except:
     - /^release*/
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
@@ -242,7 +239,7 @@ publish_orders:
   stage: publish
   script:
     - make PROJECT="orders" make-publish
-  rules:
+  only:
     changes:
       - Dockerfile
       - requirements.txt
