@@ -12,5 +12,4 @@ RUN pip install -r requirements.txt
 
 # Tests configuration
 COPY .coveragerc .
-
 ENV PYTHONPATH=/var/nameko
