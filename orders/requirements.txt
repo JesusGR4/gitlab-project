@@ -8,7 +8,7 @@ greenlet==0.4.15
 idna==2.8
 importlib-metadata==0.23
 kombu==4.6.4
-Mako==1.1.0
+Mako==1.2.2
 MarkupSafe==1.1.1
 marshmallow==2.19.2
 mock==3.0.5
